@@ -1,0 +1,142 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "API de Embalagem - Loja do Seu Manoel",
+    "version": "v1",
+    "description": "API para automatização do processo de embalagem de pedidos da Loja do Seu Manoel"
+  },
+  "paths": {
+    "/api/embalagem": {
+      "post": {
+        "tags": [
+          "Embalagem"
+        ],
+        "summary": "Processa pedidos e retorna a melhor forma de embalagem",
+        "operationId": "ProcessarPedidos",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PedidosRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PedidosResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PedidosRequest": {
+        "type": "object",
+        "properties": {
+          "pedidos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Pedido"
+            }
+          }
+        }
+      },
+      "Pedido": {
+        "type": "object",
+        "properties": {
+          "pedido_id": {
+            "type": "integer"
+          },
+          "produtos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Produto"
+            }
+          }
+        }
+      },
+      "Produto": {
+        "type": "object",
+        "properties": {
+          "produto_id": {
+            "type": "string"
+          },
+          "dimensoes": {
+            "$ref": "#/components/schemas/Dimensoes"
+          }
+        }
+      },
+      "Dimensoes": {
+        "type": "object",
+        "properties": {
+          "altura": {
+            "type": "number"
+          },
+          "largura": {
+            "type": "number"
+          },
+          "comprimento": {
+            "type": "number"
+          }
+        }
+      },
+      "PedidosResponse": {
+        "type": "object",
+        "properties": {
+          "pedidos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PedidoResponse"
+            }
+          }
+        }
+      },
+      "PedidoResponse": {
+        "type": "object",
+        "properties": {
+          "pedido_id": {
+            "type": "integer"
+          },
+          "caixas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Caixa"
+            }
+          }
+        }
+      },
+      "Caixa": {
+        "type": "object",
+        "properties": {
+          "caixa_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "produtos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "observacao": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      }
+    }
+  }
+} 
